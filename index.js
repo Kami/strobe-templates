@@ -1,5 +1,5 @@
 /**
- * Node Templates 
+ * Node Templates
  *
  * Notes: 
  * 1.  Exceptions defined in the errors module:  
