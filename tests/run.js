@@ -3,7 +3,7 @@
  * $ node run.js
  */
 
-var T    = require('../../template')
+var T    = require('../template')
   , sys  = require('sys')
   , path = require('path');
   
