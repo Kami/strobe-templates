@@ -68,7 +68,7 @@ Context.prototype = {
         return Object.getPath( stack[i][key], path );
     return null;
   }
-  
+
   /**
    * Pushes a new context hash on the current context. 
    *  
@@ -78,7 +78,7 @@ Context.prototype = {
     ++this.size;
     this.stack.push( hash );
   }
-  
+
   /**
    * Pops the last added context hash from the stack  
    *  
@@ -88,7 +88,7 @@ Context.prototype = {
     --this.size;
     return this.stack.pop();
   }
-  
+
   /**
    * Returns a copy of the context at the moment.
    * Use this when you need to save the current context
