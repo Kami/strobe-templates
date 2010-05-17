@@ -3,18 +3,18 @@ The template syntax is the same as in Django templates.
 
 For now, Strobe Templates have the following template tags:
 
-<code>{% for x in y %}{% endfor %}
+<code><pre>{% for x in y %}{% endfor %}
 {% if x %}{% else if y %}{% else %}{% endif %}
 {% extends template_name %}
 {% include template_name %}
-{% block block_name %}</code>
+{% block block_name %}</pre></code>
 
 You can define your own template tags in the "tags.js" module. Template inheritance is done in the same way as Django, only in an asynchronous way. Strobe templates support caching of parsed templates. 
 One important difference from Django templates is that the render() method returns an array of strings. It's your job to call .join("") on the rendered output.
 
 Simple usage example: 
 
-<code>var sys = require('sys')
+<code><pre>var sys = require('sys')
   , templates = require('template');
 
 templates.setTemplatesDir('/path/to/templates/dir');
@@ -32,7 +32,7 @@ template.load( function( err, template ) {
       else 
         sys.puts( output.join("") );
     });
-});</code>
+});</pre></code>
 
 Run a benchmark and a test output:
 
