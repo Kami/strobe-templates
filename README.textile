@@ -44,8 +44,8 @@ h3. Run a benchmark and a test output:
 
 h3. Used Code
 
-Visionmedia's "ext":http://github.com/visionmedia/ext.js library (extensions to Object and sprintf )
+* Visionmedia's "ext":http://github.com/visionmedia/ext.js library (extensions to Object and sprintf )
 
-h4. Todos
+h3. Todos
 
-Add filters for variable tags
+* Add filters for variable tags
