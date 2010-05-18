@@ -16,7 +16,7 @@ One important difference from Django templates is that the render() method retur
 
 h3. Requirements
 
-* Node.js > 0.1.95
+* "node.js":http://github.com/ry/node > 0.1.95 (works with lesser versions if you remove the buffer.toString in the load method of the template prototype)
 
 h3. Simple usage example:
 
