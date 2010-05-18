@@ -14,6 +14,10 @@ For now, Strobe Templates have the following template tags:
 You can define your own template tags in the "tags.js" module. Template inheritance is done in the same way as Django, only in an asynchronous way. Strobe templates support caching of parsed templates. 
 One important difference from Django templates is that the render() method returns an array of strings. It's your job to call .join("") on the rendered output.
 
+h3. Requirements
+
+* Node.js > 0.1.95
+
 h3. Simple usage example:
 
 <pre><code>
