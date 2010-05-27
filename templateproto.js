@@ -194,7 +194,6 @@ Template.prototype = {
         // If not, it's a string
         else
           output = output.concat( token );
-          
       } // endfor
     } catch( e ){ 
       this.main._err = e;

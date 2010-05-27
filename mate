@@ -1,0 +1,31 @@
+diff --git a/index.js b/index.js
+index 8060d9c..471dfbc 100644
+--- a/index.js
++++ b/index.js
+@@ -21,12 +21,14 @@
+ 
+ require( "./extensions" );
+ var T        = require('./template')
++  , C        = require('./context')
+   , TP       = require('./templateproto')
+   , TO       = require('./tokens');
+ 
+ 
+ exports.version = "0.1";
+ 
++exports.Context  = C.Context;
+ exports.Template = T.Template;
+ exports.setTemplatesDir = TP.setTemplatesDir;
+ exports.setDebug = function( bool ){
+diff --git a/templateproto.js b/templateproto.js
+index f301a76..0f2136e 100644
+--- a/templateproto.js
++++ b/templateproto.js
+@@ -194,7 +194,6 @@ Template.prototype = {
+         // If not, it's a string
+         else
+           output = output.concat( token );
+-          
+       } // endfor
+     } catch( e ){ 
+       this.main._err = e;

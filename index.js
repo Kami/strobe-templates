@@ -21,12 +21,14 @@
 
 require( "./extensions" );
 var T        = require('./template')
+  , C        = require('./context')
   , TP       = require('./templateproto')
   , TO       = require('./tokens');
 
 
 exports.version = "0.1";
 
+exports.Context  = C.Context;
 exports.Template = T.Template;
 exports.setTemplatesDir = TP.setTemplatesDir;
 exports.setDebug = function( bool ){
