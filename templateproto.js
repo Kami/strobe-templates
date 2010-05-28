@@ -108,6 +108,9 @@ Template.prototype = {
         continue;
       
       token = makeToken( tokens[i], stack[ si ], this.main );
+      
+      if( token === null )
+        continue; // comment
 
       if( token.type === BLOCK_TOKEN ) {
         stack[ si ].children.push( token );
