@@ -16,9 +16,9 @@ var fs                = require('fs')
   , BLOCK_TOKEN_END   = 3
   , VAR_TOKEN         = 4
   
-    // Some settings globals
-  , USE_CACHE
-  , TEMPLATES_DIR
+    // Some globals
+  , USE_CACHE         = global.SETTINGS ? !SETTINGS.DEBUG : false
+  , TEMPLATES_DIR     = global.SETTINGS ? SETTINGS.TEMPLATES_DIR : ""
   
   // Splits template by tags
   , tagRegex = /(\{%.*?%\}|\{\{.*?\}\}|\{#.*?#\})/;
@@ -130,6 +130,8 @@ Template.prototype = {
     }
     if( stack[ si ] !== this )
       throw new E.TSE("Unclosed '%s' tag in template '%s'".fmt(stack[si].tagname,this.filepath));
+    
+    return this;
   }
   
   /**

@@ -1,5 +1,6 @@
 var sys = require('sys')
-  , isArray = Array.isArray;
+  , isArray = Array.isArray
+  , DEFAULT_STACK = (global.SETTINGS && SETTINGS.CONTEXT_DEFAULT_STACK) || [];
 
 /** @class 
  * 
@@ -15,9 +16,27 @@ var sys = require('sys')
  *  
  * @param {Hash} original context
  */
-var Context = function( hash ){
-  this.stack = [ hash ];
-  this.size = 1;
+function Context( hash ){
+  this.stack = DEFAULT_STACK.concat( [ hash ] );
+  this.size  = DEFAULT_STACK.length + 1;
+}
+
+/**
+ * Pushes a hash to the default context stack. 
+ * Every context instance will the hashes pushed to the default. 
+ *  
+ * @param {Object} The hash to be pushed 
+ */
+Context.addToDefault = function( hash ){
+  if( typeof hash === 'object' )
+    DEFAULT_STACK.push( hash );
+}
+
+/**
+ * Clears the default context stack
+ */
+Context.clearDefault = function(){
+    DEFAULT_STACK = [];
 }
 
 Context.prototype = {

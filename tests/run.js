@@ -54,13 +54,15 @@ sys.puts( "*******************************************************" );
 sys.puts( "" );
 
 var context = {
-  greeting: "This text is a variable defined in the view."
-  , file: "included.html"
+    file: "included.html"
   , extending: "base.html"
   , four: 4
   , five: 5
   , array: [1,2,3,4]
 };
+
+// Add a default variable for all context instances
+T.Context.addToDefault({  greeting: "This text is a variable defined in the view." });
 
 var template = new T.Template( path.join( "page.html" ) );
 template.load( function( err, template ) {

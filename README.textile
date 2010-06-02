@@ -42,6 +42,15 @@ template.load( function( err, template ) {
 });
 </code></pre>
 
+Adding some default values to all context instances (Something like a context_processor in Django)
+<pre><code>
+var Context = require('template').Context;
+// This will be available in all context insances
+Context.addToDefault({ MEDIA_URL: "http://media.url/" });
+// Clear the defaults
+Context.clearDefault();
+</code></pre>
+
 h3. Run a benchmark and a test output:
 
 <pre><code>$ node tests/run.js</code></pre>

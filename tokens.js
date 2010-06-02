@@ -5,7 +5,9 @@ var sys      = require('sys')
   , tags     = require('./tags')
   
     // Globals
-  , VAR_TOKEN_MISSING_WARNING
+  , VAR_TOKEN_MISSING_WARNING = global.SETTINGS && SETTINGS.DEBUG
+      ? "<span style='color:red'>Missing variable '%s'</span>" : ""
+
   , STRING_TOKEN      = 1
   , BLOCK_TOKEN       = 2
   , BLOCK_TOKEN_END   = 3
@@ -199,5 +201,5 @@ var makeToken = function( string, parent, main ){
 
 exports.makeToken = makeToken;
 exports.setVarMissingWarning = function( bool ){
-  VAR_TOKEN_MISSING_WARNING = bool ? "<p style='color:red'>Missing variable '%s'</p>" : "";
+  VAR_TOKEN_MISSING_WARNING = bool ? "<span style='color:red'>Missing variable '%s'</span>" : "";
 }
