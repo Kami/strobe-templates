@@ -17,8 +17,8 @@ var sys = require('sys')
  * @param {Hash} original context
  */
 function Context( hash ){
-  this.stack = DEFAULT_STACK.concat( [ hash ] );
-  this.size  = DEFAULT_STACK.length + 1;
+  (this.stack = [].concat(DEFAULT_STACK) ).push( hash );
+  this.size  = this.stack.length;
 }
 
 /**
@@ -56,9 +56,8 @@ Context.prototype = {
       return this.getPath( key );
 
     while( i-- )
-      if( key in stack[i] ){
+      if( key in stack[i] )
         return stack[i][key];
-      }
         
     return null;
   }

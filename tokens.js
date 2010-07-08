@@ -5,8 +5,7 @@ var sys      = require('sys')
   , tags     = require('./tags')
   
     // Globals
-  , VAR_TOKEN_MISSING_WARNING = global.SETTINGS && SETTINGS.DEBUG
-      ? "<span style='color:red'>Missing variable '%s'</span>" : ""
+  , VAR_TOKEN_MISSING_WARNING = global.SETTINGS && SETTINGS.DEBUG ? "<span style='color:red'>Missing variable '%s'</span>" : ""
 
   , STRING_TOKEN      = 1
   , BLOCK_TOKEN       = 2
