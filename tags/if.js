@@ -6,7 +6,7 @@ exports['if']     = IF;
 exports['else']   = ELSE;
 
 /**
- * This is an IF tag, like in Django. 
+ * This is an IF tag, like in Django.
  * It can contain 'else' and 'else if' tags inside.
  */
 var validIfParamRegex = /^(\w+(\.\w+)*)( ?(<|>|==|>=|<=|\!=| in ) ?(\w+(\.\w+)*))?$/;
@@ -16,11 +16,11 @@ function IF( params, parent ) {
 
   if( !( matches = params.match(validIfParamRegex) ) )
     throw new E.TSE( "Invalid 'if' tag syntax: '%s'".fmt(params) );
-  
-  this.var1     = matches[1]; 
-  this.var2     = matches[5]; 
+
+  this.var1     = matches[1];
+  this.var2     = matches[5];
   this.operator = matches[4] && matches[4].trim();
-  
+
 }
 
 IF.compileFunction = function() {
@@ -31,15 +31,15 @@ IF.compileFunction = function() {
     , children = this.children
     , branches = this.branches
     , j = children.length;
-  
+
   branches.push({ v1:this.var1, v2:this.var2, op:this.operator, start:0, end:j });
   for( ; i<j; i++ ) {
     c = children[i];
     if( c.tagname === 'else' ) {
-      
+
       if( lastToken ) throw new E.TSE("Ivalid placement of 'else' tag within and 'if' block");
       if( c.plain ) lastToken = true; // a plain else tag must be the last one in the if block
-        
+
       branches[curr].end = i;
       // start is i+1 because we skip this else token - it doesn't render
       branches.push({ v1:c.var1, v2:c.var2, op:c.operator, start:i+1, end:j });
@@ -52,17 +52,17 @@ IF.renderFunction = function( context ){
   var i, j, op, v1, v2, branch
     , branches = this.branches
     , found  = false;
-  
+
   for( i=0, j=branches.length; i<j; ++i  ) {
     branch = branches[i];
     v1 = branch.v1;
     v2 = branch.v2;
     op = branch.op;
-    
+
     v1 = !isNaN(+v1) ? (+v1) : context.getPath( v1 );
     if(v2) v2 = !isNaN(+v2) ? (+v2) : context.getPath( v2 );
     if( op )
-      found = 
+      found =
           op === "==" ? v1 === v2
         : op === "<=" ? v1 <=  v2
         : op === ">=" ? v1 >=  v2
@@ -76,11 +76,11 @@ IF.renderFunction = function( context ){
 
     else if( v1 )
       found = true;
-    
+
     if( found )
       break;
   }
-  
+
   if( !found )
     return [];
 
@@ -95,7 +95,7 @@ IF.expectsClosing = true;
 var removeIfRegex = /^if +/;
 function ELSE( params, parent ){
   var matches, branches=[];
-  
+
   if( parent.tagname !== 'if' )
     throw new E.TSE( "'else' tag encountered outside an 'if' block" );
 
@@ -104,12 +104,12 @@ function ELSE( params, parent ){
     this.var1  = true;
     return;
   }
-  
+
   params = params.replace(removeIfRegex, "");
   if( !( matches = params.match(validIfParamRegex) ) )
     throw new E.TSE( "Invalid 'else if' tag syntax: '%s'".fmt(params) );
-  
-  this.var1      = matches[1]; 
-  this.var2      = matches[5]; 
+
+  this.var1      = matches[1];
+  this.var2      = matches[5];
   this.operator  = matches[4] && matches[4].trim();
 };
