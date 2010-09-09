@@ -66,7 +66,7 @@ IF.renderFunction = function( context ){
           op === "==" ? v1 === v2
         : op === "<=" ? v1 <=  v2
         : op === ">=" ? v1 >=  v2
-        : op === "!=" ? v1 <=  v2
+        : op === "!=" ? v1 !== v2
         : op === "<"  ? v1  <  v2
         : op === ">"  ? v1  >  v2
         // Execute 'in' operator (only option left)
