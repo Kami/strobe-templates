@@ -9,7 +9,7 @@ exports['else']   = ELSE;
  * This is an IF tag, like in Django.
  * It can contain 'else' and 'else if' tags inside.
  */
-var validIfParamRegex = /^(\w+(\.\w+)*)( ?(<|>|==|>=|<=|\!=| in ) ?(\w+(\.\w+)*))?$/;
+var validIfParamRegex = /^(["']?.+?["']?)( ?(==|>=|<=|\!=|<|>| in ) ?(["']?.+?["']?))?$/;
 function IF( params, parent ) {
   var matches;
   this.branches=[];
@@ -18,9 +18,8 @@ function IF( params, parent ) {
     throw new E.TSE( "Invalid 'if' tag syntax: '%s'".fmt(params) );
 
   this.var1     = matches[1];
-  this.var2     = matches[5];
-  this.operator = matches[4] && matches[4].trim();
-
+  this.var2     = matches[4];
+  this.operator = matches[3] && matches[3].trim();
 }
 
 IF.compileFunction = function() {
@@ -59,8 +58,21 @@ IF.renderFunction = function( context ){
     v2 = branch.v2;
     op = branch.op;
 
-    v1 = !isNaN(+v1) ? (+v1) : context.getPath( v1 );
-    if(v2) v2 = !isNaN(+v2) ? (+v2) : context.getPath( v2 );
+    if (is_literal_string_value(v1)) {
+      v1 = strip_quotes_from_literal_string_value(v1);
+    }
+    else {
+      v1 = !isNaN(+v1) ? (+v1) : context.getPath( v1 );
+    }
+
+    if(v2) {
+      if (is_literal_string_value(v2)) {
+        v2 = strip_quotes_from_literal_string_value(v2);
+      }
+      else {
+        v2 = !isNaN(+v2) ? (+v2) : context.getPath( v2 );
+      }
+    }
     if( op )
       found =
           op === "==" ? v1 === v2
@@ -89,6 +101,25 @@ IF.renderFunction = function( context ){
 
 IF.expectsClosing = true;
 
+/*
+ * Return true if value is a string and contains quotes at the beginning and the end.
+ */
+function is_literal_string_value(value) {
+  if ((typeof(value) === 'string' && (value.length >= 3)) &&
+     ((value[0] == '"' && value[value.length - 1] == '"') || (value[0] == '\'' && value[value.length - 1] == '\''))) {
+    return true;
+  }
+
+  return false;
+}
+
+/*
+ * Remove quotes from the beginning and end of a string.
+ */
+function strip_quotes_from_literal_string_value(value) {
+  return value.substring(1, value.length - 1);
+}
+
 /**
  * This is an else (with an optional if) tag.
  */
@@ -110,6 +141,6 @@ function ELSE( params, parent ){
     throw new E.TSE( "Invalid 'else if' tag syntax: '%s'".fmt(params) );
 
   this.var1      = matches[1];
-  this.var2      = matches[5];
-  this.operator  = matches[4] && matches[4].trim();
+  this.var2      = matches[4];
+  this.operator  = matches[3] && matches[3].trim();
 };
