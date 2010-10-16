@@ -24,8 +24,27 @@ function FOR( params, parent ) {
   this.tagname  = "for";
 }
 
+/**
+  Add the following special variables to the forloop context:
+
+  forloop.counter - current iteration of the loop (1 based)
+  forloop.counter0 - current iteration of the loop (0 based)
+  forloop.revcounter - number of iterations from the end of the loop (1 based)
+  forloop.revcounter0 - number of iterations from the end of the loop (0 based)
+ */
+function add_counter_vars(context, i, len) {
+  if (!context.hasOwnProperty('forloop')) {
+    throw new Error('Context does not have forloop property');
+  }
+
+  context.forloop.counter = (i + 1);
+  context.forloop.counter0 = i;
+  context.forloop.revcounter = (len - i);
+  context.forloop.revcounter0 = (len - i) - 1;
+}
+
 FOR.renderFunction = function( context ){
-  var iter, i, j=0, r
+  var iter, i, j=0, k, r
     , ctx = { forloop:{} }
     , output = []
     , var1 = this.var1
@@ -41,15 +60,21 @@ FOR.renderFunction = function( context ){
   if( isArray( iter ) ) {
     for( i=0, j=iter.length; i<j; ++i ) {
       ctx[ var1 ] = iter[ i ];
+      add_counter_vars(ctx, i, j);
       var2 && ( ctx[ var2 ] = i );
       output = output.concat( render.call( this, context ) );
     }
   }
   else if( typeof iter === 'object' ) {
+    k = 0;
+    j = Object.keys(iter).length;
+
     for( i in iter ) {
       if( !iter.hasOwnProperty(i) ) continue;
       ctx[ var1 ] = iter[ i ];
+      add_counter_vars(ctx, k, j);
       var2 && ( ctx[ var2 ] = i );
+      k++;
       output = output.concat( render.call( this, context ) );
     }
   }
@@ -57,6 +82,7 @@ FOR.renderFunction = function( context ){
    for( i=0, j=iter.length; i<j; ++i ) {
      ctx[ var1 ] = iter[ i ];
      var2 && ( ctx[ var2 ] = i );
+     add_counter_vars(ctx, i, j);
      output = output.concat( render.call( this, context ) );
    }
   }
