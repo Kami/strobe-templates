@@ -61,6 +61,7 @@ Template.prototype = {
     }
 
     else { // We need to perform blocking I/O
+      this.children = [];
       var self = this;
 
       this.main.blocked++;
