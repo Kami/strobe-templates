@@ -38,31 +38,31 @@ FOR.renderFunction = function( context ){
 
   context.push( ctx );
 
-  if( isArray( iter ) )
+  if( isArray( iter ) ) {
     for( i=0, j=iter.length; i<j; ++i ) {
       ctx[ var1 ] = iter[ i ];
       var2 && ( ctx[ var2 ] = i );
       output = output.concat( render.call( this, context ) );
     }
-
-  else if( typeof iter === 'object' )
-
+  }
+  else if( typeof iter === 'object' ) {
     for( i in iter ) {
       if( !iter.hasOwnProperty(i) ) continue;
       ctx[ var1 ] = iter[ i ];
       var2 && ( ctx[ var2 ] = i );
       output = output.concat( render.call( this, context ) );
     }
-
-  else if( typeof iter === 'string' )
-
-   for( i in iter ) {
+  }
+  else if( typeof iter === 'string' ) {
+   for( i=0, j=iter.length; i<j; ++i ) {
      ctx[ var1 ] = iter[ i ];
-     var2 && ( ctx[ var2 ] = j++ );
+     var2 && ( ctx[ var2 ] = i );
      output = output.concat( render.call( this, context ) );
    }
-
-  else throw new E.TE( "'%s' is not a valid variable for looping".fmt( lookup ) );
+  }
+  else {
+    throw new E.TE( "'%s' is not a valid variable for looping".fmt( lookup ) );
+  }
 
   context.pop();
   return output;
